@@ -21,6 +21,9 @@
     <Content Include="./appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="./settings.job">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="./run.cmd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
