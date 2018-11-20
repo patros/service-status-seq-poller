@@ -45,7 +45,7 @@ namespace Patros.ServiceStatus.SeqPoller
             var currentServiceStatuses = new Services();
             try
             {
-                var currentJson = File.ReadAllText(configuration["serviceStateFilePath"]);
+                var currentJson = File.ReadAllText(configuration["serviceStatusFilePath"]);
                 currentServiceStatuses = JsonConvert.DeserializeObject<Services>(currentJson);
             }
             catch (FileNotFoundException)
@@ -85,7 +85,7 @@ namespace Patros.ServiceStatus.SeqPoller
             }
 
             var newJson = JsonConvert.SerializeObject(scratchPad, Formatting.Indented);
-            File.WriteAllText(configuration["serviceStateFilePath"], newJson);
+            File.WriteAllText(configuration["serviceStatusFilePath"], newJson);
         }
     }
 }
