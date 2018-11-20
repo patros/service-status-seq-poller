@@ -1,0 +1,1 @@
+dotnet Patros.ServiceStatus.SeqPoller.dll

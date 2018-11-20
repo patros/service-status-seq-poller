@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Product>Patros.ServiceStatus.Models</Product>
+    <Authors>Patrick Dwyer</Authors>
+    <Company></Company>
+    <Description>Models for the Service Status project.</Description>
+    <ProjectUrl>https://github.com/patros/service-status</ProjectUrl>
+    <LicenseUrl>https://github.com/patros/service-status/blob/master/LICENSE</LicenseUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+  </ItemGroup>
+
+</Project>
