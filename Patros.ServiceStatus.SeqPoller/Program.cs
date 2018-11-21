@@ -58,10 +58,16 @@ namespace Patros.ServiceStatus.SeqPoller
                 scratchPad.Statuses[service] = Status.Offline;
             }
 
-            // note the items returned below can also be in the currentFailures list
-            // so the ordering of setting service states is important
-            var currentNonFailureEvents = await seqRepo.GetServicesWithCurrentNonFailureEvents();
-            foreach (var service in currentNonFailureEvents)
+            // note the items returned below can also be in the currentFailures
+            // and other lists so the ordering of setting service states is important
+            var allRecentServices = await seqRepo.GetAllServices();
+            foreach (var service in allRecentServices)
+            {
+                scratchPad.Statuses[service] = Status.Offline;
+            }
+
+            var currentNonFailures = await seqRepo.GetServicesWithCurrentNonFailureEvents();
+            foreach (var service in currentNonFailures)
             {
                 scratchPad.Statuses[service] = Status.Online;
             }
