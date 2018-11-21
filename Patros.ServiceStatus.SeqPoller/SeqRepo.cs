@@ -72,7 +72,7 @@ namespace Patros.ServiceStatus.SeqPoller
             var reportResponse = JsonConvert.DeserializeObject<SeqReportResponse>(responseContent);
             foreach (var row in reportResponse.Rows)
             {
-                results.Add(row[0]);
+                if (!string.IsNullOrEmpty(row[0])) results.Add(row[0]);
             }
             return results;
         }
