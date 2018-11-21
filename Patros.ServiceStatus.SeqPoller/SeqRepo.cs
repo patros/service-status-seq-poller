@@ -84,7 +84,7 @@ namespace Patros.ServiceStatus.SeqPoller
 
         public async Task<List<string>> GetServicesWithCurrentFailures()
         {
-            return await GetServiceList("select count(*) from stream where @Timestamp > Now() - 5m and (@Level = 'Error' or @Level = 'Critical') group by CONCAT(CONCAT(Service, ':'), Environment)");
+            return await GetServiceList("select count(*) from stream where @Timestamp > Now() - 5m and (@Level = 'Error' or @Level = 'Fatal') group by CONCAT(CONCAT(Service, ':'), Environment)");
         }
 
         public async Task<List<string>> GetServicesWithCurrentWarnings()
@@ -94,7 +94,7 @@ namespace Patros.ServiceStatus.SeqPoller
 
         public async Task<List<string>> GetServicesWithPreviousFailures()
         {
-            return await GetServiceList("select count(*) from stream where @Timestamp < Now() - 5m and @Timestamp > Now() - 10m and (@Level = 'Error' or @Level = 'Critical') group by CONCAT(CONCAT(Service, ':'), Environment)");
+            return await GetServiceList("select count(*) from stream where @Timestamp < Now() - 5m and @Timestamp > Now() - 10m and (@Level = 'Error' or @Level = 'Fatal') group by CONCAT(CONCAT(Service, ':'), Environment)");
         }
 
         public async Task<List<string>> GetServicesWithCurrentNonFailureEvents()
