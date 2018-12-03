@@ -79,7 +79,7 @@ namespace Patros.ServiceStatus.SeqPoller
 
         public async Task<List<string>> GetAllServices()
         {
-            return await GetServiceList("select count(*) from stream where @Timestamp > Now() - 1d group by CONCAT(CONCAT(Service, ':'), Environment)");
+            return await GetServiceList("select count(*) from stream where @Timestamp > Now() - 6h group by CONCAT(CONCAT(Service, ':'), Environment)");
         }
 
         public async Task<List<string>> GetServicesWithCurrentFailures()
