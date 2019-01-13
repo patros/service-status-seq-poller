@@ -1,0 +1,1 @@
+A simple utility to poll Seq to automatically determine service status.
