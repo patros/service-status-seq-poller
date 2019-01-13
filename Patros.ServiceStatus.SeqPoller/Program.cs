@@ -28,14 +28,13 @@ namespace Patros.ServiceStatus.SeqPoller
                 new QueryStringParameterAuthenticatedHttpClientOptions
                 {
                     Name = "apiKey",
-                    Value = configuration["seq:apiKey"]
+                    Value = configuration["seqApiKey"]
                 }
             );
 
-            var seqRepo = new SeqRepo(new SeqRepoOptions
-            {
-                ServerUrl = configuration["seq:serverUrl"]
-            }, httpClient);
+            var seqRepoOptions = new SeqRepoOptions();
+            configuration.Bind("seqRepoOptions", seqRepoOptions);
+            var seqRepo = new SeqRepo(seqRepoOptions, httpClient);
             
             var scratchPad = new Services
             {

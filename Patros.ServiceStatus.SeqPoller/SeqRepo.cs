@@ -32,6 +32,11 @@ namespace Patros.ServiceStatus.SeqPoller
     public class SeqRepoOptions
     {
         public string ServerUrl { get; set; }
+        public string AllServicesQueryOverride { get; set; }
+        public string ServicesWithCurrentFailuresQueryOverride { get; set; }
+        public string ServicesWithCurrentWarningsQueryOverride { get; set; }
+        public string ServicesWithPreviousFailuresQueryOverride { get; set; }
+        public string ServicesWithCurrentNonFailureEventsQueryOverride { get; set; }
     }
 
     public class SeqRepo
@@ -79,27 +84,27 @@ namespace Patros.ServiceStatus.SeqPoller
 
         public async Task<List<string>> GetAllServices()
         {
-            return await GetServiceList("select count(*) from stream where @Timestamp > Now() - 6h group by CONCAT(CONCAT(Service, ':'), Environment)");
+            return await GetServiceList(_options.AllServicesQueryOverride ?? "select count(*) from stream where @Timestamp > Now() - 6h group by CONCAT(CONCAT(Service, ':'), Environment)");
         }
 
         public async Task<List<string>> GetServicesWithCurrentFailures()
         {
-            return await GetServiceList("select count(*) from stream where @Timestamp > Now() - 5m and (@Level = 'Error' or @Level = 'Fatal') group by CONCAT(CONCAT(Service, ':'), Environment)");
+            return await GetServiceList(_options.ServicesWithCurrentFailuresQueryOverride ?? "select count(*) from stream where @Timestamp > Now() - 5m and (@Level = 'Error' or @Level = 'Fatal') group by CONCAT(CONCAT(Service, ':'), Environment)");
         }
 
         public async Task<List<string>> GetServicesWithCurrentWarnings()
         {
-            return await GetServiceList("select count(*) from stream where @Timestamp > Now() - 10m and @Level = 'Warning' group by CONCAT(CONCAT(Service, ':'), Environment)");
+            return await GetServiceList(_options.ServicesWithCurrentWarningsQueryOverride ?? "select count(*) from stream where @Timestamp > Now() - 10m and @Level = 'Warning' group by CONCAT(CONCAT(Service, ':'), Environment)");
         }
 
         public async Task<List<string>> GetServicesWithPreviousFailures()
         {
-            return await GetServiceList("select count(*) from stream where @Timestamp < Now() - 5m and @Timestamp > Now() - 10m and (@Level = 'Error' or @Level = 'Fatal') group by CONCAT(CONCAT(Service, ':'), Environment)");
+            return await GetServiceList(_options.ServicesWithPreviousFailuresQueryOverride ?? "select count(*) from stream where @Timestamp < Now() - 5m and @Timestamp > Now() - 10m and (@Level = 'Error' or @Level = 'Fatal') group by CONCAT(CONCAT(Service, ':'), Environment)");
         }
 
         public async Task<List<string>> GetServicesWithCurrentNonFailureEvents()
         {
-            return await GetServiceList("select count(*) from stream where @Timestamp > Now() - 5m and @Level = 'Information' group by CONCAT(CONCAT(Service, ':'), Environment)");
+            return await GetServiceList(_options.ServicesWithCurrentNonFailureEventsQueryOverride ?? "select count(*) from stream where @Timestamp > Now() - 5m and @Level = 'Information' group by CONCAT(CONCAT(Service, ':'), Environment)");
         }
     }
 }
